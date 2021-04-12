@@ -1,0 +1,46 @@
+﻿@model caixa_eletronico.Domain.ViewModels.WadOfBillsViewModel
+
+@{
+    ViewData["TabTitle"] = "Notas cadastradas";
+    ViewData["Title"] = "Notas cadastradas";
+    ViewData["Subtitle"] = "Gerencie as notas do sistema";
+}
+
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+            <tr>
+                <th colspan="1">Valor da nota</th>
+                <th colspan="1">Quantidade</th>
+                <th colspan="1">Valor total</th>
+                <th colspan="1">Remover</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <p>Valores atualizados em @DateTime.Now</p>
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var bill in Model.WadsOfBills)
+            {
+                <tr>
+                    <td>@bill.BillValue</td>
+                    <td>@bill.Quantity</td>
+                    <td>@bill.TotalValue</td>
+                    <td><a href='@Url.Action("Remove", "Bills", new {value = @bill.BillValue})'>🗑</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p>Adicionar nova nota</p>
+
+<form method="POST" asp-controller="Bills" asp-action="Add">
+    <input placeholder="0" name="valor-nova-nota" type="number" />
+    <input type="submit" value="Adicionar" class="input-submit" />
+</form>
+

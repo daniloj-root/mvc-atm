@@ -1,0 +1,57 @@
+﻿@model caixa_eletronico.Domain.ViewModels.WithdrawViewModel
+
+@{
+    ViewData["TabTitle"] = "Sacar";
+}
+
+@if (!@Model.RequestDone)
+{
+    <h1>Sacar</h1>
+    <p>Digite uma quantidade para sacar</p>
+
+    <form method="POST" asp-controller="WadOfBills" asp-action="Withdraw">
+        <input placeholder="0" name="valor-saque" type="number" />
+        <input type="submit" value="Sacar" />
+    </form>
+}
+
+@if (@Model.RequestDone)
+{
+    @if (@Model.Success)
+    {
+        <p>Saque concluído com sucesso!</p>
+
+        <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                    <tr>
+                        <th colspan="1">Valor da Nota</th>
+                        <th colspan="1">Quantidade</th>
+                        <th colspan="1">Valor total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var wad in Model.WithdrewWads)
+                    {
+                        <tr>
+                            <td>@wad.BillValue</td>
+                            <td>@wad.Quantity</td>
+                            <td>@wad.TotalValue</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        if (@Model.NextPossibleValue != null)
+        {
+            <p>Não há dinheiro suficiente para satisfazer seu saque. Temos R$@Model.NextPossibleValue em caixa.</p>
+        }
+        else
+        {
+            <p>@Model.ResultMessage</p>
+        }
+    }
+}

@@ -1,0 +1,20 @@
+﻿@model caixa_eletronico.Domain.ViewModels.BillsViewModel
+
+@{
+    ViewData["TabTitle"] = "Inserir notas";
+    ViewData["Title"] = "Inserir notas";
+    ViewData["Subtitle"] = "Digite a quantidade que deseja adicionar de cada uma";
+}
+
+<div class="form-wrapper">
+    <form method="POST" asp-controller="WadOfBills" asp-action="AddToCurrentWads">
+        <div class="input-wrapper">
+            @foreach (var bill in @Model.Bills)
+            {
+                <label for="qtd-notas-@bill.MonetaryValue">Notas de @bill.MonetaryValue</label>
+                <input placeholde="0" name="qtd-notas-@bill.MonetaryValue" type="number" />
+            }
+        </div>
+        <input type="submit" value="Inserir notas" />
+    </form>
+</div>
